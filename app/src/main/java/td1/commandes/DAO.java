@@ -1,5 +1,6 @@
 package td1.commandes;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -51,10 +52,16 @@ public class DAO {
      * ensemble des différents produits commandés
      */
     public Set<Produit> produits() {
-        return commandes.stream()
+       /* return commandes.stream()
                 .flatMap(c -> c.lignes().stream())
                 .map(Paire::fst)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toSet()); */
+
+        Set<Produit> rtr = new HashSet<Produit>();
+        for(Commande c : commandes){
+
+        }
+        return rtr;
     }
 
     /**
@@ -79,9 +86,17 @@ public class DAO {
      * liste des commandes dont au moins une ligne vérifie un prédicat
      */
     public List<Commande> selectionCommandeSurExistanceLigne(Predicate<Paire<Produit,Integer>> p) {
-        return commandes.stream()
+       /* return commandes.stream()
             .filter(c -> c.lignes().stream().anyMatch(p))
-            .collect(Collectors.toList());
+            .collect(Collectors.toList()); */
+        List<Commande> listco = new ArrayList<Commande>();
+
+        commandes.forEach(c -> {
+            if(p.test((Paire<Produit, Integer>) p)){
+                listco.add(c);
+            }
+        });
+        return listco;
     }
 
     /**
