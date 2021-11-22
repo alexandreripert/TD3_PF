@@ -303,6 +303,7 @@ public class App {
                 a1, e -> String.format("%s %s : %.2f", e.prenom(), e.nom(), moyenneIndicative.apply(e)));
     }
 
+
     public static void main(String[] args) {
         question1_1();
         question1_2();
