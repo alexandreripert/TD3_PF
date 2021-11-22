@@ -51,52 +51,60 @@ public class DAO {
     /**
      * ensemble des différents produits commandés
      */
-    public Set<Produit> produits() {
-       /* return commandes.stream()
-                .flatMap(c -> c.lignes().stream())
-                .map(Paire::fst)
-                .collect(Collectors.toSet()); */
+   public Set<Produit>  produits() {
+       return commandes.stream()
+               .flatMap(c -> c.lignes().stream())
+               .map(Paire::fst)
+               .collect(Collectors.toSet());
 
-        Set<Produit> rtr = new HashSet<Produit>();
-        for(Commande c : commandes){
 
-        }
-        return rtr;
+
     }
+
+   /* public Set<Produit>  produits() {
+        Set<Produit> sp = new HashSet<Produit>();
+        for (int i = 0; i < commandes.size(); i++) {
+            commandes.get(i).lignes().forEach(cl -> {
+                sp.add(cl);
+            });
+        }
+        return sp;
+    } */
+    //sans stream
 
     /**
      * liste des commandes vérifiant un prédicat
      */
     public List<Commande> selectionCommande(Predicate<Commande> p) {
-       /* return commandes.stream()
+        return commandes.stream()
             .filter(p)
-            .collect(Collectors.toList()); */
+            .collect(Collectors.toList());
 
-        List<Commande> listco = new ArrayList<Commande>();
+      /*  List<Commande> listco = new ArrayList<Commande>();
 
         commandes.forEach(c -> {
             if(p.test(c)){
                 listco.add(c);
             }
         });
-        return listco;
+        return listco; */ //sans stream
     }
 
     /**
      * liste des commandes dont au moins une ligne vérifie un prédicat
      */
     public List<Commande> selectionCommandeSurExistanceLigne(Predicate<Paire<Produit,Integer>> p) {
-       /* return commandes.stream()
+        return commandes.stream()
             .filter(c -> c.lignes().stream().anyMatch(p))
-            .collect(Collectors.toList()); */
-        List<Commande> listco = new ArrayList<Commande>();
+            .collect(Collectors.toList());
+       /* List<Commande> listco = new ArrayList<Commande>();
 
         commandes.forEach(c -> {
             if(p.test((Paire<Produit, Integer>) p)){
                 listco.add(c);
             }
         });
-        return listco;
+        return listco; */ //sans stream
     }
 
     /**
