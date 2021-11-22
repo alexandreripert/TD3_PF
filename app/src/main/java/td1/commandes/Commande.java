@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 import td1.paires.Paire;
 
@@ -24,7 +25,7 @@ public class Commande {
         return lignes;
     }
 
-    @Override
+  /*  @Override
     public String toString() {
         StringBuilder str = new StringBuilder();
         str.append("Commande\n");
@@ -32,7 +33,7 @@ public class Commande {
             str.append(String.format("%s x%d\n", ligne.fst(), ligne.snd()));
         }
         return str.toString();
-    }
+    } */
 
     /**
      * cumule les lignes en fonction des produits
@@ -55,13 +56,13 @@ public class Commande {
         return commandeNormalisee;
     }
 
-    public Double cout(Function<Paire<Produit, Integer>, Double> calculLigne) {
+  /*  public Double cout(Function<Paire<Produit, Integer>, Double> calculLigne) {
         double rtr = 0;
         for (Paire<Produit, Integer> l : normaliser().lignes) {
             rtr += calculLigne.apply(l);
         }
         return rtr;
-    }
+    } */
 
     public String affiche(Function<Paire<Produit, Integer>, Double> calculLigne) {
         Commande c = this.normaliser();
@@ -82,6 +83,21 @@ public class Commande {
         str.append(HLINE);
         str.append(String.format("Total : %10.2f", c.cout(calculLigne)));
         return str.toString();
+    }
+
+    private static final Function<Paire<Produit, Integer>, String> formateurLigne = k -> String.format("Commande : %s: %d", k.fst(), k.snd());
+
+    @Override
+    public String toString() {
+        return lignes.stream()
+                .map(line -> formateurLigne.apply(line))
+                .collect(Collectors.joining());
+    }
+
+    public Double cout(Function<Paire<Produit, Integer>, Double> calculLigne) {
+        return lignes.stream()
+                .map(line -> calculLigne.apply(line))
+                .reduce(0.0, (a,b) -> a + b) ;
     }
 
 }
